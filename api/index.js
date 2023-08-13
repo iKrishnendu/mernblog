@@ -49,6 +49,17 @@ app.use("/api/users", userRoutes);
 // app.use('/api/posts', postRoutes)
 // app.use('/api/posts', postRoutes)
 
+// deploy code - serve
+
+if (process.env.NODE_ENV == "production") {
+  const path = require("path");
+  app.use(express.static("client/build"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
+
 // Now we connect to the backend using express and app.listen to the 8800 port
 
 app.listen(port, () => {
